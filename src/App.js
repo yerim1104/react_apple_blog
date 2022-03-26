@@ -4,16 +4,11 @@ import './App.css';
 function App() {
 
   let [title, titletrans] = useState(['남자 코트 추천','춤추기','노래하기']);
-  let [count, counttrans] = useState([0,0,0]);
+  let titlearr=[...title];  
+  let [count, counttrans] = useState(Array(titlearr.length).fill(0));
   let [modal, modaltrans] = useState(false);
   let [detail, detailtrans] = useState(0);
-  let [입력값, 입력값변경] = useState('');
-
-  function newchange(a){
-    let newArray=[...count];
-    newArray[a]++
-    counttrans(newArray);
-  }
+  let [inputs, inputtrans] = useState('');
 
 
   return (
@@ -28,10 +23,14 @@ function App() {
         title.map(function(a,i){
           return(
             <div key={i}>
-                  <div className='list'  >
+                  <div className='list'>
                 <h3 onClick={()=>{modaltrans(!modal); detailtrans(i);}} >{ a }
-                
-                <span onClick={()=>{newchange(i)}}>👍</span>
+                {console.log(i)}
+                <span onClick={()=>{ //뉴어레이에 맵돌려보자
+                  let newArray=[...count];
+                 newArray[i]+=1
+                  counttrans(newArray);
+                }}>👍</span>
                   
                   {count[i]}</h3>
                 <p>2월 17일 발행</p>
@@ -47,13 +46,14 @@ function App() {
       }
 
       <div className="publish">
-        <input onChange={(e)=>{입력값변경(e.target.value)}}/>
+        <input onChange={(e)=>{inputtrans(e.target.value)}}/>
         <button onClick={()=>{
           var arrayCopy=[...title];
-            arrayCopy.unshift(입력값);
-            titletrans=(arrayCopy)
+            arrayCopy.unshift(inputs);
+            titletrans(arrayCopy);
             
             }}>저장</button>
+
       </div>
 
 
